@@ -24,7 +24,7 @@ class MakeViewCommand extends BaseCommand
 
         // Create view file
         $path = str_replace('.', '/', $this->getArgument('path'));
-        file_put_contents("$viewRoot/$path", '');
+        file_put_contents("$viewRoot/$path.blade.php", '');
 
         // Return success
         return 0;
