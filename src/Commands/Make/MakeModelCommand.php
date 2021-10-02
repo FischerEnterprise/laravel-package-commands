@@ -2,9 +2,10 @@
 
 namespace FischerEnterprise\LaravelPackageCommands\Commands\Make;
 
-use RuntimeException;
 use FischerEnterprise\LaravelPackageCommands\Commands\BaseCommand;
 use FischerEnterprise\LaravelPackageCommands\Presets\PresetManager;
+use FischerEnterprise\LaravelPackageCommands\Extension\StringExtension;
+use FischerEnterprise\LaravelPackageCommands\Extension\ComposerInfoExtension;
 
 /**
  * Create a new model file
@@ -31,13 +32,8 @@ class MakeModelCommand extends BaseCommand
         $name = array_pop($path);
         $path = implode('/', $path);
 
-        // Remove trailing and leading `/` from path
-        while (str_starts_with($path, '/')) {
-            $path = substr($path, 1);
-        }
-        while (str_ends_with($path, '/')) {
-            $path = substr($path, 0, -1);
-        }
+        // Remove tailing and leading `/` from path
+        $path = StringExtension::SanitizePath($path);
 
         // Check for existing model
         if (file_exists("$modelRoot/$path/$name.php")) {
@@ -51,20 +47,10 @@ class MakeModelCommand extends BaseCommand
         }
 
         // Create namespace
-        $composerInfo = json_decode(file_get_contents("$packageRoot/composer.json"));
-        $namespace = null;
-        foreach ($composerInfo->autoload->{'psr-4'} as $key => $value) {
-            if ($value === 'src' || $value === 'src/') {
-                $namespace = $key;
-                break;
-            }
-        }
-        if ($namespace === null) {
-            throw new RuntimeException('Could not find default namespace. Maybe you modified your composer.json autoload?');
-        }
+        $namespace = ComposerInfoExtension::GetDefaultNamespace();
 
         // Append path to namespace
-        $namespace .= str_replace('/', '\\', $path);
+        $namespace .= StringExtension::ToNamespace($path);
 
         // Remove trailing `\` from namespace
         while (str_ends_with($namespace, '\\')) {
