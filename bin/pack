@@ -41,8 +41,7 @@ function kebab_case_to_pascal_case($string)
 $app = new \Symfony\Component\Console\Application('Laravel Package Manager', '1.0.0');
 
 // Register commands
-$app->add(new \FischerEnterprise\LaravelPackageCommands\Commands\InitCommand);
-$app->add(new \FischerEnterprise\LaravelPackageCommands\Commands\HelloCommand);
+\FischerEnterprise\LaravelPackageCommands\CommandController::Register($app);
 
 // Run the application
 $app->run();
