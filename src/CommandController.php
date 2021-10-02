@@ -15,6 +15,7 @@ class CommandController
 
         // Make Commands
         $app->add(new \FischerEnterprise\LaravelPackageCommands\Commands\Make\MakeViewCommand);
+        $app->add(new \FischerEnterprise\LaravelPackageCommands\Commands\Make\MakeModelCommand);
     }
 
 }
