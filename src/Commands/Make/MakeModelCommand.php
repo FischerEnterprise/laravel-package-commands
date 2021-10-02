@@ -45,7 +45,7 @@ class MakeModelCommand extends BaseCommand
         // Create namespace
         $composerInfo = json_decode(file_get_contents("$packageRoot/composer.json"));
         $namespace = null;
-        foreach ($composerInfo['autoload']['psr-4'] as $key => $value) {
+        foreach ($composerInfo->autoload->{'psr-4'} as $key => $value) {
             if ($value === 'src' || $value === 'src/') {
                 $namespace = $key;
                 break;
