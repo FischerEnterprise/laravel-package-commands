@@ -27,7 +27,7 @@ class MakeModelCommand extends BaseCommand
         }
 
         // Generate path and file name
-        $path = preg_split('/(\/|\\)/', $this->getArgument('name'));
+        $path = preg_split('/(\/|\\\\)/', $this->getArgument('name'));
         $name = array_pop($path);
         $path = implode('/', $path);
 
