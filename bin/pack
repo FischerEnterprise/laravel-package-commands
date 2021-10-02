@@ -1,0 +1,48 @@
+<?php
+
+// Search and load autoloader
+$possibleLocations = [
+    __DIR__ . '/../../../autoload.php',
+    __DIR__ . '/../autoload.php',
+    __DIR__ . '/vendor/autoload.php',
+    getcwd() . '/vendor/autoload.php',
+];
+
+foreach ($possibleLocations as $location) {
+    if (file_exists($location)) {
+        require $location;
+    }
+}
+
+// Create helper functions
+/**
+ * Get the absolute path to a preset file
+ *
+ * @param string $filePath
+ * @return string
+ */
+function preset_dir($filePath)
+{
+    return __DIR__ . "/../presets/$filePath";
+}
+
+/**
+ * Convert a string from kebab-case to PascalCase
+ *
+ * @param string $string
+ * @return string
+ */
+function kebab_case_to_pascal_case($string)
+{
+    return str_replace(' ', '', ucwords(str_replace('-', ' ', $string)));
+}
+
+// Create symfony console application
+$app = new \Symfony\Component\Console\Application('Laravel Package Manager', '1.0.0');
+
+// Register commands
+$app->add(new \FischerEnterprise\LaravelPackageCommands\Commands\InitCommand);
+$app->add(new \FischerEnterprise\LaravelPackageCommands\Commands\HelloCommand);
+
+// Run the application
+$app->run();
