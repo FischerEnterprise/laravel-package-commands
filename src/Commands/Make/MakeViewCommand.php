@@ -33,6 +33,9 @@ class MakeViewCommand extends BaseCommand
         }
         file_put_contents("$viewRoot/$path/$name.blade.php", '');
 
+        // Write success to console
+        $this->info("New view generated at resources/views/$path/$name.blade.php");
+
         // Return success
         return 0;
     }
