@@ -33,7 +33,7 @@ class MakeModelCommand extends BaseCommand
         $path = implode('/', $path);
 
         // Remove tailing and leading `/` from path
-        $path = StringExtension::SanitizePath($path);
+        $path = StringExtension::SanitizePath($path, '/');
 
         // Check for existing model
         if (file_exists("$modelRoot/$path/$name.php")) {
