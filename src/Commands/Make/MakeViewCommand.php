@@ -20,11 +20,18 @@ class MakeViewCommand extends BaseCommand
         $viewRoot = "$packageRoot/resources/views";
 
         // Create view root
-        mkdir($viewRoot, 0777, true);
+        if (!is_dir($viewRoot)) {
+            mkdir($viewRoot, 0777, true);
+        }
 
         // Create view file
-        $path = str_replace('.', '/', $this->getArgument('path'));
-        file_put_contents("$viewRoot/$path.blade.php", '');
+        $path = explode('.', $this->getArgument('path'));
+        $name = array_pop($path);
+        $path = implode('/', $path);
+        if (!is_dir("$viewRoot/$path")) {
+            mkdir("$viewRoot/$path", 0777, true);
+        }
+        file_put_contents("$viewRoot/$path/$name.blade.php", '');
 
         // Return success
         return 0;
