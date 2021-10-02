@@ -24,10 +24,18 @@ class MakeViewCommand extends BaseCommand
             mkdir($viewRoot, 0777, true);
         }
 
-        // Create view file
+        // Generate path and file name
         $path = explode('.', $this->getArgument('path'));
         $name = array_pop($path);
         $path = implode('/', $path);
+
+        // Check for existing view
+        if (file_exists("$viewRoot/$path/$name.blade.php")) {
+            $this->error("View file at 'resources/views/$path/$name.blade.php' already exists");
+            return 1;
+        }
+
+        // Create folders and file
         if (!is_dir("$viewRoot/$path")) {
             mkdir("$viewRoot/$path", 0777, true);
         }
