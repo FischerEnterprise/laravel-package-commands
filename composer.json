@@ -16,7 +16,8 @@
     },
     "autoload": {
         "psr-4": {
-            "FischerEnterprise\\LaravelPackageCommands\\": "src"
+            "FischerEnterprise\\LaravelPackageCommands\\": "src",
+            "FischerEnterprise\\LaravelPackageCommands\\Presets": "presets"
         }
     },
     "autoload_dev": {
