@@ -241,7 +241,7 @@ _________                                           .___
      */
     protected function error(string $message): void
     {
-        $this->outputInterface->write("<bg=red><fg=white>$message</></>");
+        $this->outputInterface->write("<bg=red;fg=white>$message</></>");
     }
 
 }
