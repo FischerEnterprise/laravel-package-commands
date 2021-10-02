@@ -19,7 +19,7 @@ class StringExtension
     public static function SanitizePath(string $path, string $seperator = DIRECTORY_SEPARATOR, bool $startWithSeperator = false, bool $endWithSeperator = false): string
     {
         // Replace seperators and replace multiple with single seperator
-        $path = preg_replace('(\/|\\\\)+', $seperator, $path);
+        $path = preg_replace('/(\/|\\\\)+/', $seperator, $path);
 
         // Handle leading seperator if required
         if (!$endWithSeperator && str_ends_with($path, $seperator)) {
