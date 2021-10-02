@@ -31,6 +31,14 @@ class MakeModelCommand extends BaseCommand
         $name = array_pop($path);
         $path = implode('/', $path);
 
+        // Remove trailing and leading `/` from path
+        while (str_starts_with($path, '/')) {
+            $path = substr($path, 1);
+        }
+        while (str_ends_with($path, '/')) {
+            $path = substr($path, 0, -1);
+        }
+
         // Check for existing model
         if (file_exists("$modelRoot/$path/$name.php")) {
             $this->error("Model file at 'src/Models/$path/$name.php' already exists");
