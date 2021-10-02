@@ -33,7 +33,7 @@ abstract class BaseCommand extends Command
      */
     protected $description;
 
-    public function __construct()
+    protected function configure()
     {
         $cmdParts = explode(' ', $this->signature);
         $name = array_shift($cmdParts);
