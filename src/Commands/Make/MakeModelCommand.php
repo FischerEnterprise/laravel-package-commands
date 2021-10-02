@@ -76,7 +76,7 @@ class MakeModelCommand extends BaseCommand
             'namespace' => $namespace,
             'modelName' => $name,
         ]);
-        file_put_contents("$modelRoot/$path/$name.blade.php", $fileContent);
+        file_put_contents("$modelRoot/$path/$name.php", $fileContent);
 
         // Write success to console
         $this->info("New model generated at src/Models/$path/$name.php");
