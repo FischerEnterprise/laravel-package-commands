@@ -50,4 +50,15 @@ class StringExtension
         return static::SanitizePath($path, '\\');
     }
 
+    /**
+     * Convert snake_case to PascalCase
+     *
+     * @param string $snakeCase
+     * @return string
+     */
+    public static function SnakeCaseToPascalCase($snakeCase)
+    {
+        return str_replace('_', '', ucwords($snakeCase, '_'));
+    }
+
 }
