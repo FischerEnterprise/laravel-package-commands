@@ -50,7 +50,7 @@ class MakeModelCommand extends BaseCommand
         $namespace = ComposerInfoExtension::GetDefaultNamespace();
 
         // Append path to namespace
-        $namespace .= StringExtension::ToNamespace($path);
+        $namespace .= 'Models\\' . StringExtension::ToNamespace($path);
 
         // Remove trailing `\` from namespace
         while (str_ends_with($namespace, '\\')) {
