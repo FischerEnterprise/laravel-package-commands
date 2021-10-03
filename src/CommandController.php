@@ -17,6 +17,7 @@ class CommandController
         $app->add(new \FischerEnterprise\LaravelPackageCommands\Commands\Make\MakeViewCommand);
         $app->add(new \FischerEnterprise\LaravelPackageCommands\Commands\Make\MakeModelCommand);
         $app->add(new \FischerEnterprise\LaravelPackageCommands\Commands\Make\MakeMigrationCommand);
+        $app->add(new \FischerEnterprise\LaravelPackageCommands\Commands\Make\MakeControllerCommand);
     }
 
 }
