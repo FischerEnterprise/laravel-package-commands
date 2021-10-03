@@ -48,8 +48,13 @@ abstract class BaseCommand extends Command
 
             $part = substr($part, 1, -1);
 
-            $optional = str_starts_with($part, '?');
+            $optional = str_ends_with($part, '?');
             if ($optional) {
+                $part = substr($part, 0, -1);
+            }
+
+            $valueFlag = str_ends_with($part, '=');
+            if ($valueFlag) {
                 $part = substr($part, 0, -1);
             }
 
@@ -61,12 +66,12 @@ abstract class BaseCommand extends Command
                     $option['name'] = $part;
                     $option['short'] = null;
                 }
-                $option['required'] = !$optional;
+                $option['default'] = $valueFlag ? InputOption::VALUE_OPTIONAL : InputOption::VALUE_NONE;
                 $options[] = $option;
             } else {
                 $argument = [];
                 $argument['name'] = $part;
-                $argument['required'] = !$optional;
+                $argument['default'] = $optional ? InputArgument::OPTIONAL : InputArgument::REQUIRED;
                 $arguments[] = $argument;
             }
         }
@@ -76,12 +81,16 @@ abstract class BaseCommand extends Command
         foreach ($arguments as $argument) {
             $this->addArgument(
                 $argument['name'],
-                $argument['required'] ? InputArgument::REQUIRED : InputArgument::OPTIONAL
+                $argument['default']
             );
         }
 
         foreach ($options as $option) {
-            $this->addOption($option['name'], $option['short'], $option['required'] ? InputOption::VALUE_REQUIRED : InputOption::VALUE_NONE);
+            $this->addOption(
+                $option['name'],
+                $option['short'],
+                $option['default']
+            );
         }
     }
 
@@ -113,9 +122,9 @@ abstract class BaseCommand extends Command
      * Get and input argument
      *
      * @param string $name
-     * @return string
+     * @return string|null
      */
-    protected function getArgument(string $name): string
+    protected function getArgument(string $name)
     {
         return $this->inputInterface->getArgument($name);
     }
@@ -124,11 +133,11 @@ abstract class BaseCommand extends Command
      * Get an input option
      *
      * @param string $name
-     * @return bool
+     * @return string|bool
      */
-    protected function getOption(string $name): bool
+    protected function getOption(string $name)
     {
-        return $this->inputInterface->getOption($name);
+        return $this->inputInterface->getOption($name) ?? false;
     }
 
     /**
@@ -208,7 +217,7 @@ _________                                           .___
      */
     protected function say(string $message): void
     {
-        $this->outputInterface->write($message);
+        $this->outputInterface->write($message . PHP_EOL);
     }
 
     /**
@@ -219,7 +228,7 @@ _________                                           .___
      */
     protected function info(string $message): void
     {
-        $this->outputInterface->write("<fg=cyan>$message</>");
+        $this->outputInterface->write("<fg=cyan>$message</>" . PHP_EOL);
     }
 
     /**
@@ -230,7 +239,7 @@ _________                                           .___
      */
     protected function warn(string $message): void
     {
-        $this->outputInterface->write("<bg=yellow>$message</>");
+        $this->outputInterface->write("<bg=yellow>$message</>" . PHP_EOL);
     }
 
     /**
@@ -241,7 +250,7 @@ _________                                           .___
      */
     protected function error(string $message): void
     {
-        $this->outputInterface->write("<bg=red;fg=white>$message</></>");
+        $this->outputInterface->write("<bg=red;fg=white>$message</>" . PHP_EOL);
     }
 
 }
